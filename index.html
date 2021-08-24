@@ -1,459 +1,267 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-        
-        <!-- ESTILO PERSONALIZADO-->
-        <link rel="stylesheet" href="css/main.css">
 
-        <!-- ESTILO DO RANGE SLIDER BUTTON-->
-        <link rel="stylesheet" href="css/range-slider.css">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous">
 
-        <!-- ESTILO DOS RADIO BUTTONS-->
-        <link rel="stylesheet" href="css/radio-button.css">
+    <!-- ESTILO PERSONALIZADO-->
+    <link rel="stylesheet"
+          href="css/main.css">
 
-    </head>
-    <body>
-        <div class="container">
-        
-           
-            </br>
-            
-            <div class="card-group"><!--GRUPO PRINCIPAL DE CARDS-->
-                <div class="card no-print"><!-- PRIMEIRO CARD-->
-                    
-                    <div class="card-body " style="height: 100%;">
-                        <p>
-                            <form>
-                                        <div class='geradortituloout'><h4 class='gerador-titulo'>Gerador de Malhas</h4></div>
-                                    <!-- RADIO BUTTONS-->
-                            
-                                    <label class='labelnumpontos' >Formato<span> </span><button type='button' class='btn-tooltip' data-toggle="tooltip" title="O seletor de formatos permite o usuário escolher a forma geométrica de domínio que será empregada na malha.">?</button></label></br>
-                                        <input type="radio" checked="checked" name="radioformato" id="r1" value='Circle'  onclick="alterarLabelDimensao_Circle()"/>
-                                        <label for="r1"><span></span>Círculo <img src=''/></label>
-                                    </br>
-                                        <input type="radio" name="radioformato" id="r4" value='Elipse'  onclick="alterarLabelDimensao_Elipse()"/>
-                                        <label for="r4"><span></span>Elipse</label>
-                                    </br>
-                                        <input type="radio" name="radioformato" id="r2" value='Square'  onclick="alterarLabelDimensao_Square()"/>
-                                        <label for="r2"><span></span>Quadrado</label>
-                                    </br>
-                                        <input type="radio" name="radioformato" id="r3" value='Rect'  onclick="alterarLabelDimensao_Rect()"/>
-                                        <label for="r3"><span></span>Retângulo</label>
-                                    </br>
-                                        
-                                        <!--FIM DO RADIO BUTTONS-->
-                                        </p>
+    <!-- ESTILO DO RANGE SLIDER BUTTON-->
+    <link rel="stylesheet"
+          href="css/range-slider.css">
 
-                                        <!-- RANGE SLIDER 1-->
-                                        <label for="range1" id='labelrange1' class='labelnumpontos' >Diâmetro</label><span style='color: rgb(92, 92, 92); font-size: 15px;' id='labeldimensao'></span> </label>
-                                        <input id="range1" name="range1" type="range" min="1" max="300" value="200" >
-                                        <!-- FIM DO RANGE SLIDER 1-->
+    <!-- ESTILO DOS RADIO BUTTONS-->
+    <link rel="stylesheet"
+          href="css/radio-button.css">
 
-                                        <label  for="range3" id='labelrange3' class='labelnumpontos'><span style='color: rgb(92, 92, 92);'>Desativado</span> <span style='color: rgb(92, 92, 92); font-size: 15px;' id='labelaltura'></span></label>
-                                        <input disabled id="range3" name="range3" type="range" min="1" max="300" value="200">
+</head>
 
-                                        <!--RANGE SLIDER 2-->
-                                        <label for="range2" class='labelnumpontos'>Grau de Refinamento <span style='color: rgb(92, 92, 92); font-size: 15px;'>(%)</span> <button type='button' class='btn-tooltip' data-toggle="tooltip" title="O Seletor de grau de refinamento de malha permite que o usuário defina uma porcentagem do tamanho de domínio que será definido como o tamanho das arestas das suas subdivisões.">?</button></label>
-                                        <input id="range2" name="range2" type="range" min="1" max="100" value="50">
-                                        <!-- FIM DO RANGE SLIDER 2-->
+<body>
+    <div class="container">
 
-                                        
 
-                                        <p>
-                                            <label for="range4"  id='labelrange4' class='labelnumpontos'>Ângulo de Rotação <span id='spanlabelrange4'style='color: rgb(92, 92, 92); font-size: 15px;'>(Desativado) </span><button type='button' class='btn-tooltip' data-toggle="tooltip" title="O seletor de rotação permite o usuário rotacionar o domínio da malha em até 360º, por padrão, o valor inicial é sempre 0º.">?</button></label>
-                                            <input disabled id="range4" name="range4" type="range" min="0" max="360" value="0">
-                                        
-                                </form>    
-                                </br>
+        </br>
+
+        <div class="card-group">
+            <!--GRUPO PRINCIPAL DE CARDS-->
+            <div class="card no-print">
+                <!-- PRIMEIRO CARD-->
+
+                <div class="card-body "
+                     style="height: 100%;">
+                    <p>
+                    <form>
+                        <div class='geradortituloout'>
+                            <h4 class='gerador-titulo'>Gerador de Malhas</h4>
                         </div>
-            </div><!--FIM DO PRIMEIRO CARD-->
-            
-                
-                <!--INICIO DO ESPAÇO DO CANVAS (SEGUNDO CARD)-->
-                    <div class="card bg-superdark canvasexterno" >
-                       
-                    <div class="card-body cardcanvas " id='svgprintable'>
-                        
-                            <svg class='svgcanvas' width='420px' height='420px' id='svg'>
-                                <image class='uerjlogo'
-                                x="110"
-                                y="110"
-                                width="200" 
-                                height="200" 
-                                opacity="0.2"
-                                xlink:href="https://cdn.discordapp.com/attachments/874412727311937548/876908325571293234/iprj.png" 
-                            />
+                        <!-- RADIO BUTTONS-->
 
-                                
-
-                            </svg>
-                            
-                            <div class='no-print' style='width: 410px; height: 100px;'>
-                            </br>
-                                <!-- INÍCIO DO BOTÃO DE RENDERIZAR-->
-
-                                <div id='btn-renderizar '   class="btn btn-malha grad-background" onclick="mostrarDados(), renderizar()">Renderizar</div>
-                                <!-- FIM DO BOTÃO DE RENDERIZAR-->
-                                
-                                <!-- INÍCIO DO BOTÃO DE REFRESH-->
-                                <div class="btn btn-refresh"  onclick="refresh()"><img  style='width: 30px;'src='https://cdn.discordapp.com/attachments/874412727311937548/874772346668462180/image.png'></div>
-                                <!-- FIM DO BOTÃO DE REFRESH-->
-
-                                <!-- INÍCIO DO BOTÃO DE PRINT-->
-                                <div  class="btn btn-print " onclick="printSVG()"><img class='invert-color' style='width: 30px;'src='https://cdn.discordapp.com/attachments/874412727311937548/879548931376300102/2849806_printer_copy_print_multimedia_icon.png'></div>    
-                                <!-- FIM DO BOTÃO DE PRINT-->
-
-                            </br>
-                                <a href='https://drive.google.com/file/d/1_m3Xe3mDKq0Cx77HLj7t_nt_758V5jHO/view?usp=sharing' target="_blank"><div class="btn btn-manual">Manual do Usuário</div></a>
-                            </div>
+                        <label class='labelnumpontos'>Formato<span> </span><button type='button'
+                                    class='btn-tooltip'
+                                    data-toggle="tooltip"
+                                    title="O seletor de formatos permite o usuário escolher a forma geométrica de domínio que será empregada na malha.">?</button></label></br>
+                        <input type="radio"
+                               checked="checked"
+                               name="radioformato"
+                               id="r1"
+                               value='Circle'
+                               onclick="alterarLabelDimensao_Circle()" />
+                        <label for="r1"><span></span>Círculo <img src='' /></label>
                         </br>
-                            
-                    </div>
+                        <input type="radio"
+                               name="radioformato"
+                               id="r4"
+                               value='Elipse'
+                               onclick="alterarLabelDimensao_Elipse()" />
+                        <label for="r4"><span></span>Elipse</label>
+                        </br>
+                        <input type="radio"
+                               name="radioformato"
+                               id="r2"
+                               value='Square'
+                               onclick="alterarLabelDimensao_Square()" />
+                        <label for="r2"><span></span>Quadrado</label>
+                        </br>
+                        <input type="radio"
+                               name="radioformato"
+                               id="r3"
+                               value='Rect'
+                               onclick="alterarLabelDimensao_Rect()" />
+                        <label for="r3"><span></span>Retângulo</label>
+                        </br>
+
+                        <!--FIM DO RADIO BUTTONS-->
+                        </p>
+
+                        <!-- RANGE SLIDER 1-->
+                        <label for="range1"
+                               id='labelrange1'
+                               class='labelnumpontos'>Diâmetro</label><span
+                              style='color: rgb(92, 92, 92); font-size: 15px;'
+                              id='labeldimensao'></span> </label>
+                        <input id="range1"
+                               name="range1"
+                               type="range"
+                               min="1"
+                               max="300"
+                               value="200">
+                        <!-- FIM DO RANGE SLIDER 1-->
+
+                        <label for="range3"
+                               id='labelrange3'
+                               class='labelnumpontos'><span style='color: rgb(92, 92, 92);'>Desativado</span> <span
+                                  style='color: rgb(92, 92, 92); font-size: 15px;'
+                                  id='labelaltura'></span></label>
+                        <input disabled
+                               id="range3"
+                               name="range3"
+                               type="range"
+                               min="1"
+                               max="300"
+                               value="200">
+
+                        <!--RANGE SLIDER 2-->
+                        <label for="range2"
+                               class='labelnumpontos'>Grau de Refinamento <span
+                                  style='color: rgb(92, 92, 92); font-size: 15px;'>(%)</span> <button type='button'
+                                    class='btn-tooltip'
+                                    data-toggle="tooltip"
+                                    title="O Seletor de grau de refinamento de malha permite que o usuário defina uma porcentagem do tamanho de domínio que será definido como o tamanho das arestas das suas subdivisões.">?</button></label>
+                        <input id="range2"
+                               name="range2"
+                               type="range"
+                               min="1"
+                               max="100"
+                               value="50">
+                        <!-- FIM DO RANGE SLIDER 2-->
+
+
+
+                        <p>
+                            <label for="range4"
+                                   id='labelrange4'
+                                   class='labelnumpontos'>Ângulo de Rotação <span id='spanlabelrange4'
+                                      style='color: rgb(92, 92, 92); font-size: 15px;'>(Desativado) </span><button
+                                        type='button'
+                                        class='btn-tooltip'
+                                        data-toggle="tooltip"
+                                        title="O seletor de rotação permite o usuário rotacionar o domínio da malha em até 360º, por padrão, o valor inicial é sempre 0º.">?</button></label>
+                            <input disabled
+                                   id="range4"
+                                   name="range4"
+                                   type="range"
+                                   min="0"
+                                   max="360"
+                                   value="0">
+
+                    </form>
+                    </br>
                 </div>
-                <!--FIM DO ESPAÇO DO CANVAS-->
-            </div><!--FIM DO CARD GROUP (1 + 2 CARD)-->
-
-            <!--INICIO RODAPÉ DO GERADOR (STATUS)-->
-            <div class="card-footer footergerador no-print" style='width: 100%;'>
-                
-                <div class="spinner-border text-light"  id='loadingspinner' role="status"></div><!-- ÍCONE DE CARREGAMENTO-->
-                <span id='statusgerador'>Aguardando dados para geração de malha...</span>
-            
-            
             </div>
-            
-            <!--FIM DO RODAPÉ DO GERADOR-->
+            <!--FIM DO PRIMEIRO CARD-->
 
-         </br>
-            <!-- INÍCIO DO RODAPÉ GERAL-->
-                <div class="card-group no-print">
-                    <div class="card">
-                        <div class="card-body text-center footer"><img src='https://cdn.discordapp.com/attachments/874412727311937548/874434737815552040/logo.png' style='width: 40px; margin-right:5px;'> | Desenvolvido pela turma de <b>Modelagem Computacional</b> de 2021.1 </div>
+
+            <!--INICIO DO ESPAÇO DO CANVAS (SEGUNDO CARD)-->
+            <div class="card bg-superdark canvasexterno">
+
+                <div class="card-body cardcanvas "
+                     id='svgprintable'>
+
+                    <svg class='svgcanvas'
+                         width='420px'
+                         height='420px'
+                         id='svg'>
+                        <image class='uerjlogo'
+                               x="110"
+                               y="110"
+                               width="200"
+                               height="200"
+                               opacity="0.2"
+                               xlink:href="https://cdn.discordapp.com/attachments/874412727311937548/876908325571293234/iprj.png" />
+
+
+
+                    </svg>
+
+                    <div class='no-print'
+                         style='width: 410px; height: 100px;'>
+                        </br>
+                        <!-- INÍCIO DO BOTÃO DE RENDERIZAR-->
+
+                        <div id='btn-renderizar '
+                             class="btn btn-malha grad-background"
+                             onclick="mostrarDados(), renderizar()">Renderizar</div>
+                        <!-- FIM DO BOTÃO DE RENDERIZAR-->
+
+                        <!-- INÍCIO DO BOTÃO DE REFRESH-->
+                        <div class="btn btn-refresh"
+                             onclick="refresh()"><img style='width: 30px;'
+                                 src='https://cdn.discordapp.com/attachments/874412727311937548/874772346668462180/image.png'>
+                        </div>
+                        <!-- FIM DO BOTÃO DE REFRESH-->
+
+                        <!-- INÍCIO DO BOTÃO DE PRINT-->
+                        <div class="btn btn-print "
+                             onclick="printSVG()"><img class='invert-color'
+                                 style='width: 30px;'
+                                 src='https://cdn.discordapp.com/attachments/874412727311937548/879548931376300102/2849806_printer_copy_print_multimedia_icon.png'>
+                        </div>
+                        <!-- FIM DO BOTÃO DE PRINT-->
+
+                        </br>
+                        <a href='https://drive.google.com/file/d/1_m3Xe3mDKq0Cx77HLj7t_nt_758V5jHO/view?usp=sharing'
+                           target="_blank">
+                            <div class="btn btn-manual">Manual do Usuário</div>
+                        </a>
                     </div>
-         </div>
-            <!--FIM DO RODAPÉ GERAL-->
-       
+                    </br>
+
+                </div>
+            </div>
+            <!--FIM DO ESPAÇO DO CANVAS-->
+        </div>
+        <!--FIM DO CARD GROUP (1 + 2 CARD)-->
+
+        <!--INICIO RODAPÉ DO GERADOR (STATUS)-->
+        <div class="card-footer footergerador no-print"
+             style='width: 100%;'>
+
+            <div class="spinner-border text-light"
+                 id='loadingspinner'
+                 role="status"></div><!-- ÍCONE DE CARREGAMENTO-->
+            <span id='statusgerador'>Aguardando dados para geração de malha...</span>
+
+
+        </div>
+
+        <!--FIM DO RODAPÉ DO GERADOR-->
+
+        </br>
+        <!-- INÍCIO DO RODAPÉ GERAL-->
+        <div class="card-group no-print">
+            <div class="card">
+                <div class="card-body text-center footer"><img
+                         src='https://cdn.discordapp.com/attachments/874412727311937548/874434737815552040/logo.png'
+                         style='width: 40px; margin-right:5px;'> | Desenvolvido pela turma de <b>Modelagem
+                        Computacional</b> de 2021.1 </div>
+            </div>
+        </div>
+        <!--FIM DO RODAPÉ GERAL-->
+
         <!--SCRIPT DO RANGE SLIDER-->
-        <script>window.addEventListener("DOMContentLoaded",() => {
-            let range1 = new RollCounterRange("#range1"),
-                range2 = new RollCounterRange("#range2"),
-                range3 = new RollCounterRange("#range3"),
-                range4= new RollCounterRange("#range4");
-        });
-        
-        class RollCounterRange {
-            constructor(id) {
-                this.el = document.querySelector(id);
-                this.srValue = null;
-                this.fill = null;
-                this.digitCols = null;
-                this.lastDigits = "";
-                this.rollDuration = 0; // the transition duration from CSS will override this
-                this.trans09 = false;
-        
-                if (this.el) {
-                    this.buildSlider();
-                    this.el.addEventListener("input",this.changeValue.bind(this));
-                }
-            }
-            buildSlider() {
-                // create a div to contain the <input>
-                let rangeWrap = document.createElement("div");
-                rangeWrap.className = "range";
-                this.el.parentElement.insertBefore(rangeWrap,this.el);
-        
-                // create another div to contain the <input> and fill
-                let rangeInput = document.createElement("span");
-                rangeInput.className = "range__input";
-                rangeWrap.appendChild(rangeInput);
-        
-                // range fill, place the <input> and fill inside container <span>
-                let rangeFill = document.createElement("span");
-                rangeFill.className = "range__input-fill";
-                rangeInput.appendChild(this.el);
-                rangeInput.appendChild(rangeFill);
-        
-                // create the counter
-                let counter = document.createElement("span");
-                counter.className = "range__counter";
-                rangeWrap.appendChild(counter);
-        
-                // screen reader value
-                let srValue = document.createElement("span");
-                srValue.className = "range__counter-sr";
-                srValue.textContent = "0";
-                counter.appendChild(srValue);
-        
-                // column for each digit
-                for (let D of this.el.max.split("")) {
-                    let digitCol = document.createElement("span");
-                    digitCol.className = "range__counter-column";
-                    digitCol.setAttribute("aria-hidden","true");
-                    counter.appendChild(digitCol);
-        
-                    // digits (blank, 0–9, fake 0)
-                    for (let d = 0; d <= 11; ++d) {
-                        let digit = document.createElement("span");
-                        digit.className = "range__counter-digit";
-        
-                        if (d > 0)
-                            digit.textContent = d == 11 ? 0 : `${d - 1}`;
-        
-                        digitCol.appendChild(digit);
-                    }
-                }
-        
-                this.srValue = srValue;
-                this.fill = rangeFill;
-                this.digitCols = counter.querySelectorAll(".range__counter-column");
-                this.lastDigits = this.el.value;
-        
-                while (this.lastDigits.length < this.digitCols.length)
-                    this.lastDigits = " " + this.lastDigits;
-        
-                this.changeValue();
-        
-                // use the transition duration from CSS
-                let colCS = window.getComputedStyle(this.digitCols[0]),
-                    transDur = colCS.getPropertyValue("transition-duration"),
-                    msLabelPos = transDur.indexOf("ms"),
-                    sLabelPos = transDur.indexOf("s");
-        
-                if (msLabelPos > -1)
-                    this.rollDuration = transDur.substr(0,msLabelPos);
-                else if (sLabelPos > -1)
-                    this.rollDuration = transDur.substr(0,sLabelPos) * 1e3;
-            }
-            changeValue() {
-                // keep the value within range
-                if (+this.el.value > this.el.max)
-                    this.el.value = this.el.max;
-        
-                else if (+this.el.value < this.el.min)
-                    this.el.value = this.el.min;
-        
-                // update the screen reader value
-                if (this.srValue)
-                    this.srValue.textContent = this.el.value;
-        
-                // width of fill
-                if (this.fill) {
-                    let pct = this.el.value / this.el.max,
-                        fillWidth = pct * 100,
-                        thumbEm = 1 - pct;
-        
-                    this.fill.style.width = `calc(${fillWidth}% + ${thumbEm}em)`;
-                }
-                
-                if (this.digitCols) {
-                    let rangeVal = this.el.value;
-        
-                    // add blanks at the start if needed
-                    while (rangeVal.length < this.digitCols.length)
-                        rangeVal = " " + rangeVal;
-        
-                    // get the differences between current and last digits
-                    let diffsFromLast = [];
-                    if (this.lastDigits) {
-                        rangeVal.split("").forEach((r,i) => {
-                            let diff = +r - this.lastDigits[i];
-                            diffsFromLast.push(diff);
-                        });
-                    }
-        
-                    // roll the digits
-                    this.trans09 = false;
-                    rangeVal.split("").forEach((e,i) => {
-                        let digitH = 1.5,
-                            over9 = false,
-                            under0 = false,
-                            transY = e === " " ? 0 : (-digitH * (+e + 1)),
-                            col = this.digitCols[i];
-        
-                        // start handling the 9-to-0 or 0-to-9 transition
-                        if (e == 0 && diffsFromLast[i] == -9) {
-                            transY = -digitH * 11;
-                            over9 = true;
-        
-                        } else if (e == 9 && diffsFromLast[i] == 9) {
-                            transY = 0;
-                            under0 = true;
-                        }
-        
-                        col.style.transform = `translateY(${transY}em)`;
-                        col.firstChild.textContent = "";
-        
-                        // finish the transition
-                        if (over9 || under0) {
-                            this.trans09 = true;
-                            // add a temporary 9
-                            if (under0)
-                                col.firstChild.textContent = e;
-        
-                            setTimeout(() => {
-                                if (this.trans09) {
-                                    let pauseClass = "range__counter-column--pause",
-                                        transYAgain = -digitH * (over9 ? 1 : 10);
-        
-                                    col.classList.add(pauseClass);
-                                    col.style.transform = `translateY(${transYAgain}em)`;
-                                    void col.offsetHeight;
-                                    col.classList.remove(pauseClass);
-        
-                                    // remove the 9
-                                    if (under0)
-                                        col.firstChild.textContent = "";
-                                }
-        
-                            },this.rollDuration);
-                        }
-                    });
-                    this.lastDigits = rangeVal;
-                }
-            }
-        }</script><!-- FIM DO SCRIPT DO RANGE SLIDER-->
+        <script src="js/range-slider.js"></script>
 
-        
+        <!--SCRIPTS DE USO GERAL-->
+        <script src="js/common.js"></script>
+
+        <!--IMPORTANDO O BOOTSTRAP JS e JQUERY-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
+                integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
+                crossorigin="anonymous"></script>
+        <script src='https://unpkg.com/pdfkit@0.12.3/js/pdfkit.js'></script>
         <script>
-    // FUNÇÃO DE MOSTRAR DADOS (BARRA DE STATUS)
-            function mostrarDados(){
-                //Buscando dados dos range's sliders
-                let rangevalue2 = document.getElementById("range2").value;
-                let rangevalue1 = document.getElementById("range1").value;
-                let rangevalue3 = document.getElementById("range3").value; 
-                //Buscando dados dos radio's buttons
-                let r1 = document.getElementById('r1');
-                let r2 = document.getElementById('r2');
-// ------------------ CHECANDO O PRIMEIRO BOTÃO RADIO
-                    if(r1.checked == true){ 
-                        document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>circular</b> com o diâmetro de <b>"+ rangevalue1 +"</b> pixels e grau de refinamento de <b>" + rangevalue2 + "</b>%."
-                    // REMOVENDO O ÍCONE DE CARREGAMENTO
-                        document.getElementById("loadingspinner").classList.remove('spinner-border');
-                    }
-// ------------------- CHECANDO O SEGUNDO BOTÃO RADIO
-                    else if(r2.checked == true){
-                        document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>quadrangular</b> com o lado de <b>"+ rangevalue1+  "</b> pixels e grau de refinamento de <b>" + rangevalue2 + "</b>%."
-                    //REMOVENDO O ÍCONE DE CARREGAMENTO
-                        document.getElementById("loadingspinner").classList.remove('spinner-border');
-                    }
-// ------------------- CHECANDO O TERCEIRO BOTÃO RADIO
-                    else if(r3.checked == true){
-                        document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>retangular</b> com a base de <b>"+ rangevalue1+  "</b> pixels e altura de <b>"+ rangevalue3 + "</b> pixels. </br> e com grau de refinamento de <b>" + rangevalue2 + "</b>%."
-                    //REMOVENDO O ÍCONE DE CARREGAMENTO
-                        document.getElementById("loadingspinner").classList.remove('spinner-border');
-                    }
-// ------------------- CHECANDO O QUARTO BOTÃO RADIO
-                    else if(r4.checked == true){
-                        document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>elipsoidal</b> com o eixo x de <b>"+ rangevalue1+  "</b> pixels e eixo y de <b>"+ rangevalue3 + "</b> pixels. </br> e com grau de refinamento de <b>" + rangevalue2 + "</b>%."
-                    //REMOVENDO O ÍCONE DE CARREGAMENTO
-                        document.getElementById("loadingspinner").classList.remove('spinner-border');
-                    }
-// ------------------- MENSAGEM DE ERRO SE NÃO FOR SELECIONADO
-                    else{
-                        alert("Por favor, selecione algum formato!")
-                    }
-                    
-            }
-    // FUNÇÃO DE DESENHAR O DOMÍNIO
-            function renderizar(){
-
-                let largurasvg = 420;                                                    // <<<<<<<<--------------------------- DEFINIR A O TAMANHO DO LADO DO SVG
-                
-                let alturasvg = largurasvg;
-                let metadealturasvg = alturasvg / 2;
-                let metadelargurasvg = largurasvg / 2;
-
-                let rangevalue2 = document.getElementById("range2").value;
-                let rangevalue1 = document.getElementById("range1").value;
-                let rangevalue3 = document.getElementById("range3").value; 
-                let rangevalue4 = document.getElementById("range4").value;
-
-                let r1 = document.getElementById('r1');
-                let r2 = document.getElementById('r2'); 
-
-                let centerx = metadealturasvg - rangevalue1 / 2;
-                let centery = metadelargurasvg - rangevalue3 / 2;
-
-                if(r1.checked == true){
-                    document.getElementById('svg').innerHTML = " <circle  r="+ rangevalue1 / 2 +" cx="+ metadealturasvg +" cy="+metadelargurasvg+" fill='#27293d' fill-opacity='0' stroke='white' stroke-width='4'/>"
-                }
-                else if(r4.checked == true){
-                    document.getElementById('svg').innerHTML = " <ellipse rx="+ rangevalue1/2 +" ry="+ rangevalue3/2 +" cx="+ metadealturasvg +" cy="+metadelargurasvg+" fill='#27293d' fill-opacity='0' stroke='white' stroke-width='4' transform='rotate("+ rangevalue4+","+metadealturasvg+","+metadelargurasvg+")'/>"
-                }else if(r3.checked == true){
-                    document.getElementById('svg').innerHTML = "<rect x="+ centerx +" y="+ centery +" rx='0' ry='0' width="+ rangevalue1+ " height="+ rangevalue3+" fill='#27293d' fill-opacity='0' stroke='white' stroke-width='4' transform='rotate("+ rangevalue4+","+metadealturasvg+","+metadelargurasvg+")'/>"
-                }else if(r2.checked == true){           
-                    document.getElementById('svg').innerHTML = "<rect x="+ centerx +" y="+ centerx +" rx='0' ry='0' width="+ rangevalue1+ " height="+ rangevalue1+" fill='#27293d' fill-opacity='0' stroke='white' stroke-width='4' transform='rotate("+ rangevalue4+","+metadealturasvg+","+metadelargurasvg+")'/>"
-                }else{
-                    alert('fuirbg')
-                }
-            }
-    // FUNÇÃO DE RECARREGAR PÁGINA
-            function refresh(){
-                window.location.reload();
-            }
-    // FUNÇÃO DE ALTERAR O FORMULARIO DEPENDENDO DO FORMATO SELECIONADO
-            function alterarLabelDimensao_Circle(){
-                document.getElementById("labelrange1").innerHTML = "Diâmetro"
-                document.getElementById("labelrange3").innerHTML = "<span style='color: rgb(92, 92, 92);'>Desativado</span>"
-                
-                document.getElementById("range3").setAttribute("disabled", true)
-                document.getElementById("range4").setAttribute("disabled", true)
-                document.getElementById("spanlabelrange4").innerHTML = "(Desativado) "
-                
-            }
-            function alterarLabelDimensao_Square(){
-                document.getElementById("labelrange1").innerHTML = "Lado";
-                document.getElementById('labelrange3').innerHTML = "Altura";
-                document.getElementById("labelrange3").innerHTML = "<span style='color: rgb(92, 92, 92);'>Desativado</span>";
-
-                document.getElementById("range3").setAttribute("disabled", true);
-                document.getElementById("range4").removeAttribute("disabled");
-                document.getElementById("spanlabelrange4").innerHTML = "(Graus) ";
-
-                
-                
-                
-            }
-            function alterarLabelDimensao_Rect(){
-                document.getElementById("labelrange1").innerHTML = " <span title=''>Base</span>";
-                document.getElementById('labelrange3').innerHTML = "Altura";
-                
-                document.getElementById("range3").removeAttribute("disabled");
-                document.getElementById("range4").removeAttribute("disabled");
-                document.getElementById("spanlabelrange4").innerHTML = "(Graus) ";
-                
-                
-            }
-            function alterarLabelDimensao_Elipse(){
-               
-                document.getElementById("labelrange1").innerHTML = "Eixo <span style='color: rgb(92, 92, 92); font-size: 15px;'>(X)</span>"
-                document.getElementById('labelrange3').innerHTML = "Eixo <span style='color: rgb(92, 92, 92); font-size: 15px;'>(Y)</span>"
-                
-                document.getElementById("range3").removeAttribute("disabled")
-                document.getElementById("range4").removeAttribute("disabled")
-                document.getElementById("spanlabelrange4").innerHTML = "(Graus) "
-            }
-       </script>
-       <!--IMPORTANDO O BOOTSTRAP JS e JQUERY-->
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
-       <script src='https://unpkg.com/pdfkit@0.12.3/js/pdfkit.js'></script>
-       <script>
-           $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
             })
-       </script>
+        </script>
 
-       <script>
-           function printSVG(){
-            window.print()
-           }
-       </script>
+        <script>
+            function printSVG() {
+                window.print()
+            }
+        </script>
 </body>
-</html>             
+
+</html>
 InterfaceV21.html
 Exibindo InterfaceV21.html…

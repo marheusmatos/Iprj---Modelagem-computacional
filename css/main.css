@@ -1,0 +1,260 @@
+
+                /*Importando a fonte padrão "Inter"*/
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+               
+                @media print
+                {   
+                    
+                    .no-print, .no-print *
+                    {
+                        
+                        display: none !important;
+                    }
+
+                    .card-group{
+                        box-shadow: none !important;
+                    }
+                    .canvasexterno{
+                        background-color: red !important;
+                    }
+                }
+                                @page {
+                    size: 20cm 20cm;
+                    margin: 30mm 45mm 30mm 45mm;
+                    /* change the margins as you want them to be. */
+                }
+
+                /*Ajuste Gerais*/
+                *{
+                    font-family: "Inter", sans-;
+                }
+                html,body{
+                    background-color: #1d1d26;
+                    -webkit-print-color-adjust: exact !important;
+                }
+ 
+                ::selection{  /*Ajuste de cor de seleção*/
+                    background-color: #8f71d5;
+                    color: white;
+                }
+                
+                /*Ajustes do Canvas SVG*/
+                .canvasexterno{
+                    position: relative;
+                }
+                .cardcanvas{
+                    width: auto;
+                    height: 100%;
+                }
+                .svgcanvas{
+                    
+                    background-color: #27293d;
+                    border-radius: 10px;
+                }
+
+                /* Título dos Inputs*/
+                .labelnumpontos{
+                    color: #adadad;
+                    
+                }
+
+                .labelnumpontos:hover{
+                    color: rgb(214, 214, 214);
+                }
+
+                /*------------BOTÕES---------------*/
+
+                /*botão de renderizar*/
+                .btn-malha{
+                   font-weight: 600;
+                   color: white;
+                   background: #734dca;
+                   width: 59%;
+                }
+                .btn-malha:hover{
+                    color: white;
+                    box-shadow: 0px 0px 25px -12px #8F71D5;
+                }
+                .btn-malha:active{
+                    background-color: #b9a6e5;
+                }
+
+                /*botão de refresh*/
+                .btn-refresh{
+                   font-weight: 600;
+                   background-color: #4f3786;
+                   width: 19%;
+                }
+               
+
+                .btn-refresh:hover{
+                    color: white;
+                    background-color: #432f72;
+                }
+                .btn-refresh:active{
+                    background-color: #75639e;
+                }
+
+                .btn-print{
+                    font-weight: 600;
+                   background-color: #4f3786;
+                   width: 18%;
+                }
+
+                .btn-print:hover{
+                    color: white;
+                    background-color: #432f72;
+                }
+
+                .btn-print:active{
+                    background-color: #75639e;
+                }
+
+                .btn-manual{
+                   
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: white;
+                    width: 100%;
+                    font-size: 20px;
+
+                    padding-left: 9px;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    margin-top: 10px;
+
+                    background-color: #432f72;
+                }
+                .btn-manual:hover{
+                    color: white;
+                    background-color: #2d1f4d;
+                }
+
+                .btn-tooltip{
+                   font-weight: 400;
+                   background-color: #4f3786;
+                   width: 15px;
+                   height: 15px;
+                   text-align: center;
+                   font-size:8px;
+                   border: none;
+                   border-radius: 50%;
+                   vertical-align: middle;
+                   color: white;
+                   text-align: center;
+                }
+                /*----------------------------------*/
+
+
+                /*Ajuste de cores e tamanhos do Bootstrap*/
+                .card-group{
+                    box-shadow: 0px 6px 21px -3px rgba(0,0,0,0.52);
+                    
+                    
+
+                    
+                }
+                .invert-color{                 
+                    -webkit-filter: invert(1);
+                    filter: invert(1);
+                }
+                
+                .card{
+                    border: #27293d;
+                    
+                }
+                .card-body{
+                    background-color: #0f1017;
+                    justify-self: center; 
+                    
+                }
+                .card-footer{
+                    background-color: #27293d;
+                    color: white;
+                    
+                }               
+                .gerador-titulo{                /* Ajuste do título "Gerador de malha"*/
+                    color: white;
+                    font-family: inter;
+                    font-weight: 600;
+                    text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+                }
+                
+                .card {
+                    display:inline-block;
+                    
+                }              
+                .bg-superdark{
+                    background-color: #0f1017;
+                }
+                .footer{                             /*Ajuste do "Desenvolvido pela turma de ..."*/
+                    font-size: 17px;
+                    color: rgb(211, 211, 211);
+                    
+                }
+                .footergerador{
+                    text-align: center;
+                    font-size: 18px;
+                    
+                    
+                   
+                }         
+                     
+                .spinner-border{              /*Spinner de carregamento*/
+                    width: 18px;
+                    height: 18px;
+                    margin-bottom: -1px;
+                    
+                }
+                .uerjlogo{
+                    animation-name: uerjscale;
+                    animation-duration: 5s;
+                    animation-iteration-count: infinite;
+                    transform-origin: 50% 50%;
+                }
+                .backtitle{
+                    background:  linear-gradient(90deg, rgba(187,134,252,1) 0%, rgba(115,77,202,1) 60%, rgba(115,77,202,1) 100%);;
+                    padding-left: 9px;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    
+                    background-size: 400% 400%;
+
+                    margin-top: 10px;
+
+                    animation: gradient 5s ease infinite;
+                }
+                .grad-background{
+                    background:  linear-gradient(90deg, rgba(187,134,252,1) 0%, rgba(115,77,202,1) 60%, rgba(115,77,202,1) 100%);;
+                    background-size: 400% 400%;
+                    animation: gradient2 5s ease infinite;
+                }
+
+                @keyframes gradient2 {
+                    0% {
+                        background-position: 0% 50%;
+                    }
+                    50% {
+                        background-position: 100% 50%;
+                    }
+                    100% {
+                        background-position: 0% 50%;
+                    }
+                }
+                @keyframes gradient {
+                    0% {
+                        background-position: 0% 50%;
+                    }
+                    50% {
+                        background-position: 100% 50%;
+                    }
+                    100% {
+                        background-position: 0% 50%;
+                    }
+                }
+
+                @keyframes uerjscale {
+                    0%   { transform: scale(2.0); }
+                    50%  { transform: scale(1.8); }
+                    100% { transform: scale(2.0); }
+                }
