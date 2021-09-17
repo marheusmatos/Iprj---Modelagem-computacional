@@ -152,6 +152,10 @@ function renderizar() {
   } else {
     alert("fuirbg");
   }
+ // document.getElementsByTagName("svg")[0].innerHTML +=
+  //  ' <circle cx="170" cy="30" r="3"stroke="green" stroke-width="1" fill="blue" />';
+
+    renderizaBorda();
 }
 // FUNÇÃO DE RECARREGAR PÁGINA
 function refresh() {
@@ -195,4 +199,56 @@ function alterarLabelDimensao_Elipse() {
   document.getElementById("range3").removeAttribute("disabled");
   document.getElementById("range4").removeAttribute("disabled");
   document.getElementById("spanlabelrange4").innerHTML = "(Graus) ";
+}
+function renderizaBorda() {
+  // geração por fronteira interna
+  var nos = [
+    [1, 2],
+    [2, 3],
+    [4, 5],
+    [5, 6],
+    [7, 8],
+    [8, 9],
+    [1, 4],
+    [2, 5],
+    [3, 6],
+    [4, 7],
+    [5, 8],
+    [6, 9],
+    [1, 5],
+    [2, 6],
+    [4, 8],
+    [6, 8],
+  ];
+
+  // 9 = numero de nos
+  var posicaoNo = new Array(9);
+
+  let rangevalue2 = document.getElementById("range2").value;
+  var quantidadeNosBorda = Math.round(nos.length * (rangevalue2 / 100)); //8
+console.log(quantidadeNosBorda);
+  var angulo = 360 / quantidadeNosBorda;
+
+  var posicaoNoAtual = [0, 0];
+
+  //valores que devem ser obtidos depois
+  let raio = document.getElementById("range1").value/2;
+  let cx = 210;
+
+  for (var p = 0; p <= 360; p += angulo) {
+
+    posicaoNoAtual[0] = (raio * (Math.cos(p * (Math.PI / 180))) + cx);
+    posicaoNoAtual[1] = cx - (raio * (Math.sin(p * (Math.PI / 180))));
+
+    console.log(
+      "angulo: " + p + "      x: " + (Math.cos(p * (Math.PI / 180)) ) + " y: " + (cx - (raio * (Math.sin(p * (Math.PI / 180))))));
+
+
+    document.getElementsByTagName("svg")[0].innerHTML +=
+      ' <circle cx="' +
+      posicaoNoAtual[0] +
+      '" cy=" ' +
+      posicaoNoAtual[1] +
+      '" r="5" fill="orange" />';
+  }
 }
