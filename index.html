@@ -1290,15 +1290,24 @@
 
             class Node {
 
+                2
+1
+2
+3
                 constructor(numeroDeNos = 9) {
                     this.numeroDeNos = numeroDeNos; //numero de nos na borda da malha
                     this.posicaoNo = new Array(numeroDeNos).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
                 }
+                distanciaentredoispontos(arrayA, arrayB) {
+                    return Math.sqrt(Math.pow((arrayA[0] - arrayB[0])) + Math.pow((arrayA[1] - arrayB[1])));
+                }
+                angulo(arrayA, arrayB, ){
 
+                }
                 renderizaBorda() {
                     // geração por fronteira interna
 
-                    
+
                     let rangevalue2 = document.getElementById("range2").value;
                     var quantidadeNosBorda = Math.round(this.numeroDeNos * (rangevalue2 / 100));//pega o numero de nos e multiplica pela porcentagem do range value
                     console.log(quantidadeNosBorda);
@@ -1323,10 +1332,10 @@
                             '" cy=" ' +
                             this.posicaoNo[indiceDoNo][1] +
                             '" r="5" fill="orange" />';
-                            console.log(this.posicaoNo[0]);
-                            indiceDoNo++;
-                        }
-                    
+                        console.log(this.posicaoNo[0]);
+                        indiceDoNo++;
+                    }
+
                 }
             }
             var no = new Node();
