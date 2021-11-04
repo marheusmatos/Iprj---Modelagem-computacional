@@ -1086,12 +1086,17 @@
                 // ------------------ CHECANDO O PRIMEIRO BOTÃO RADIO
                 if (r1.checked == true) {
                     document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>circular</b> com o diâmetro de <b>" + rangevalue1 + "</b> pixels e grau de refinamento de <b>" + rangevalue2 + "</b>%."
+                    var no = new Node();
+                    no.renderizaBorda();
                     // REMOVENDO O ÍCONE DE CARREGAMENTO
+
                     document.getElementById("loadingspinner").classList.remove('spinner-border');
                 }
                 // ------------------- CHECANDO O SEGUNDO BOTÃO RADIO
                 else if (r2.checked == true) {
                     document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>quadrangular</b> com o lado de <b>" + rangevalue1 + "</b> pixels e grau de refinamento de <b>" + rangevalue2 + "</b>%."
+                    var no = new Node();
+                    no.renderizaBordaRetangulo();
                     //REMOVENDO O ÍCONE DE CARREGAMENTO
                     document.getElementById("loadingspinner").classList.remove('spinner-border');
                 }
@@ -1290,10 +1295,6 @@
 
             class Node {
 
-                2
-1
-2
-3
                 constructor(numeroDeNos = 9) {
                     this.numeroDeNos = numeroDeNos; //numero de nos na borda da malha
                     this.posicaoNo = new Array(numeroDeNos).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
@@ -1301,9 +1302,59 @@
                 distanciaentredoispontos(arrayA, arrayB) {
                     return Math.sqrt(Math.pow((arrayA[0] - arrayB[0])) + Math.pow((arrayA[1] - arrayB[1])));
                 }
-                angulo(arrayA, arrayB, ){
+                angulo(arrayA, arrayB,) {
 
                 }
+
+                renderizaBordaRetangulo() {
+                    let rangevalue1 = document.getElementById("range1").value;
+
+                    var lado = 0;
+                    var distanciaSegmentos = Math.round(rangevalue1 / Math.floor(this.numeroDeNos / 4));
+                    console.log(distanciaSegmentos);
+                    //cada "case" dentro do switch condiz com um lado do quadrado
+                    //estamos considerando as dimensoes do svg contante e igual a 420px
+                    var posicaocentrox = (420 / 2) - rangevalue1 / 2;
+                    while (lado < 4) {
+
+                        switch (lado) {
+
+                            //esquerdo
+                            case 0:
+                                for (var y = distanciaSegmentos; y <= rangevalue1; y += distanciaSegmentos) {
+                                    var centralizarY = y + (distanciaSegmentos/2);
+                                    document.getElementsByTagName("svg")[0].innerHTML +=
+                                        ' <circle cx="' +
+                                        posicaocentrox +
+                                        '" cy=" ' +
+                                        centralizarY +
+                                        '" r="5" fill="orange" />';
+                                        console.log(y + " | " + rangevalue1);
+
+                                }
+                                break;
+
+                            //superior 
+                            case 1:
+
+                                break;
+
+                            // direito
+                            case 2:
+
+                                break;
+
+                            //inferior
+                            case 3:
+
+                                break;
+                        }
+
+                        lado++;
+                    }
+
+                }
+
                 renderizaBorda() {
                     // geração por fronteira interna
 
