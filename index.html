@@ -1297,7 +1297,9 @@
 
                 constructor(numeroDeNos = 9) {
                     this.numeroDeNos = numeroDeNos; //numero de nos na borda da malha
-                    this.posicaoNo = new Array(numeroDeNos).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
+                    this.posicaoNo = new Array(numeroDeNos * 5).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
+                    this.indiceDoNo = 0;
+                    this.anguloInicial = 0;
                 }
                 distanciaentredoispontos(arrayA, arrayB) {
                     return Math.sqrt(Math.pow((arrayA[0] - arrayB[0])) + Math.pow((arrayA[1] - arrayB[1])));
@@ -1315,21 +1317,24 @@
                     //cada "case" dentro do switch condiz com um lado do quadrado
                     //estamos considerando as dimensoes do svg contante e igual a 420px
                     var posicaocentrox = (420 / 2) - rangevalue1 / 2;
+                    console.log("posicao centro: " + posicaocentrox);
                     while (lado < 4) {
+
+                        var criteriodeParadaLoop = posicaocentrox * 1 + parseInt(rangevalue1);
 
                         switch (lado) {
 
                             //esquerdo
                             case 0:
-                                for (var y = distanciaSegmentos; y <= rangevalue1; y += distanciaSegmentos) {
-                                    var centralizarY = y + (distanciaSegmentos/2);
+                                for (var y = posicaocentrox; y <= criteriodeParadaLoop; y += distanciaSegmentos) {
+                                    var centralizarY = y;
                                     document.getElementsByTagName("svg")[0].innerHTML +=
                                         ' <circle cx="' +
                                         posicaocentrox +
                                         '" cy=" ' +
                                         centralizarY +
                                         '" r="5" fill="orange" />';
-                                        console.log(y + " | " + rangevalue1);
+                                    console.log(y + " | " + rangevalue1);
 
                                 }
                                 break;
@@ -1354,44 +1359,50 @@
                     }
 
                 }
-
-                renderizaBorda() {
+                renderizaBorda(raio = 0) {
                     // geração por fronteira interna
+                    var rangevalue2 = document.getElementById("range2").value;
 
-
-                    let rangevalue2 = document.getElementById("range2").value;
                     var quantidadeNosBorda = Math.round(this.numeroDeNos * (rangevalue2 / 100));//pega o numero de nos e multiplica pela porcentagem do range value
                     console.log(quantidadeNosBorda);
                     var angulo = 360 / quantidadeNosBorda;
+                    //caso seja a primeira vez que a função seja chamada...
+                    if (raio == 0) {
+                        raio = document.getElementById("range1").value / 2;
+
+                    } else {
+                        this.anguloInicial += angulo;
+                    }
 
                     //valores que devem ser obtidos depois
-                    let raio = document.getElementById("range1").value / 2;
+
                     let cx = 210;
 
-                    var indiceDoNo = 0;
-                    for (var p = 0; p <= 360; p += angulo) {
-                        this.posicaoNo[indiceDoNo][0] = (raio * (Math.cos(p * (Math.PI / 180))) + cx);
-                        this.posicaoNo[indiceDoNo][1] = cx - (raio * (Math.sin(p * (Math.PI / 180))));
+                    var criterioDeParada = 360 + angulo;
+                    while (this.anguloInicial <= 360) {
+                        this.posicaoNo[this.indiceDoNo][0] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
+                        this.posicaoNo[this.indiceDoNo][1] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
 
                         console.log(
-                            "angulo: " + p + "      x: " + (Math.cos(p * (Math.PI / 180))) + " y: " + (cx - (raio * (Math.sin(p * (Math.PI / 180))))));
+                            "angulo: " + this.anguloInicial + "      x: " + (Math.cos(this.anguloInicial * (Math.PI / 180))) + " y: " + (cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))))));
 
 
                         document.getElementsByTagName("svg")[0].innerHTML +=
                             ' <circle cx="' +
-                            this.posicaoNo[indiceDoNo][0] +
+                            this.posicaoNo[this.indiceDoNo][0] +
                             '" cy=" ' +
-                            this.posicaoNo[indiceDoNo][1] +
+                            this.posicaoNo[this.indiceDoNo][1] +
                             '" r="5" fill="orange" />';
                         console.log(this.posicaoNo[0]);
-                        indiceDoNo++;
+                        this.indiceDoNo++;
+                        this.anguloInicial += angulo;
                     }
 
                 }
             }
             var no = new Node();
             no.renderizaBorda();
-
+            no.renderizaBorda(50);
         </script>
 
 
