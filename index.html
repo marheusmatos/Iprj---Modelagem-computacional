@@ -1300,9 +1300,10 @@
                     this.posicaoNo = new Array(numeroDeNos * 5).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
                     this.indiceDoNo = 0;
                     this.anguloInicial = 0;
+                    this.distanciaFronteiraInerna;
                 }
-                distanciaentredoispontos(arrayA, arrayB) {
-                    return Math.sqrt(Math.pow((arrayA[0] - arrayB[0])) + Math.pow((arrayA[1] - arrayB[1])));
+                distanciaentredoispontos(x1, y1, x2, y2) {
+                    return Math.sqrt(Math.pow((x1 - x2, 2)) + Math.pow((y1 - y2, 2)));
                 }
                 angulo(arrayA, arrayB,) {
 
@@ -1362,16 +1363,15 @@
                 renderizaBorda(raio = 0) {
                     // geração por fronteira interna
                     var rangevalue2 = document.getElementById("range2").value;
-
                     var quantidadeNosBorda = Math.round(this.numeroDeNos * (rangevalue2 / 100));//pega o numero de nos e multiplica pela porcentagem do range value
-                    console.log(quantidadeNosBorda);
+                    //  console.log(quantidadeNosBorda);
                     var angulo = 360 / quantidadeNosBorda;
                     //caso seja a primeira vez que a função seja chamada...
                     if (raio == 0) {
                         raio = document.getElementById("range1").value / 2;
 
                     } else {
-                        this.anguloInicial += angulo;
+                        this.anguloInicial = angulo;
                     }
 
                     //valores que devem ser obtidos depois
@@ -1382,9 +1382,15 @@
                     while (this.anguloInicial <= 360) {
                         this.posicaoNo[this.indiceDoNo][0] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
                         this.posicaoNo[this.indiceDoNo][1] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
+                        console.log("este é o atual :" + this.posicaoNo[this.indiceDoNo]);
+                        console.log(this.posicaoNo);
+                        if (this.indiceDoNo == 1) {
+                            console.log(this.posicaoNo[0]);
+                            console.log(Math.sqrt(Math.pow((this.posicaoNo[0][0] - this.posicaoNo[1][0]), 2) + Math.pow((this.posicaoNo[0][1] - this.posicaoNo[1][1]), 2)));
+                        }
 
-                        console.log(
-                            "angulo: " + this.anguloInicial + "      x: " + (Math.cos(this.anguloInicial * (Math.PI / 180))) + " y: " + (cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))))));
+                        //   console.log(
+                        //       "angulo: " + this.anguloInicial + "      x: " + (Math.cos(this.anguloInicial * (Math.PI / 180))) + " y: " + (cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))))));
 
 
                         document.getElementsByTagName("svg")[0].innerHTML +=
@@ -1393,16 +1399,16 @@
                             '" cy=" ' +
                             this.posicaoNo[this.indiceDoNo][1] +
                             '" r="5" fill="orange" />';
-                        console.log(this.posicaoNo[0]);
+                        //  console.log(this.posicaoNo[0]);
                         this.indiceDoNo++;
                         this.anguloInicial += angulo;
                     }
-
+                    //   console.log(this.indiceDoNo);
                 }
             }
             var no = new Node();
             no.renderizaBorda();
-            no.renderizaBorda(50);
+            no.renderizaBorda(25);
         </script>
 
 
