@@ -165,6 +165,14 @@
             height: 100%;
         }
 
+        #posMouse {
+            color: #414141;
+            /*  font-family: fantasy;*/
+            font-size: 10pt;
+            /* position: fixed; */
+            /* display: table-cell; */
+        }
+
         #svg {
             background-color: var(--backgroundStatusCanvas);
             border-radius: 10px;
@@ -795,7 +803,7 @@
 
                 <div class="card-body cardcanvas"
                      id='svgprintable'>
-
+                    <p id='posMouse'>Posição do mouse será inserida aqui!</p>
                     <svg width='420px'
                          height='420px'
                          id='svg'>
@@ -1301,6 +1309,10 @@
                     this.indiceDoNo = 0;
                     this.anguloInicial = 0;
                     this.distanciaFronteiraInerna;
+
+                    this.posicaoNoX = new Array(numeroDeNos * 5);
+                    this.posicaoNoY = new Array(numeroDeNos * 5);
+
                 }
                 distanciaentredoispontos(x1, y1, x2, y2) {
                     return Math.sqrt(Math.pow((x1 - x2, 2)) + Math.pow((y1 - y2, 2)));
@@ -1377,16 +1389,23 @@
                     //valores que devem ser obtidos depois
 
                     let cx = 210;
-
+                    //this.posicaoNo.slice();
                     var criterioDeParada = 360 + angulo;
                     while (this.anguloInicial <= 360) {
-                        this.posicaoNo[this.indiceDoNo][0] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
-                        this.posicaoNo[this.indiceDoNo][1] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
-                        console.log("este é o atual :" + this.posicaoNo[this.indiceDoNo]);
-                        console.log(this.posicaoNo);
+                        //     this.posicaoNo[this.indiceDoNo][0] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
+                        //    this.posicaoNo[this.indiceDoNo][1] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
+
+                        this.posicaoNoX[this.indiceDoNo] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
+                        this.posicaoNoY[this.indiceDoNo] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
+
+                        console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
+                        console.log(this.posicaoNoX);
+                        console.log(this.posicaoNoY);
+
+
                         if (this.indiceDoNo == 1) {
-                            console.log(this.posicaoNo[0]);
-                            console.log(Math.sqrt(Math.pow((this.posicaoNo[0][0] - this.posicaoNo[1][0]), 2) + Math.pow((this.posicaoNo[0][1] - this.posicaoNo[1][1]), 2)));
+                            //      console.log(this.posicaoNo[0]);
+                            //    console.log(Math.sqrt(Math.pow((this.posicaoNo[0][0] - this.posicaoNo[1][0]), 2) + Math.pow((this.posicaoNo[0][1] - this.posicaoNo[1][1]), 2)));
                         }
 
                         //   console.log(
@@ -1395,9 +1414,9 @@
 
                         document.getElementsByTagName("svg")[0].innerHTML +=
                             ' <circle cx="' +
-                            this.posicaoNo[this.indiceDoNo][0] +
+                            this.posicaoNoX[this.indiceDoNo] +
                             '" cy=" ' +
-                            this.posicaoNo[this.indiceDoNo][1] +
+                            this.posicaoNoY[this.indiceDoNo] +
                             '" r="5" fill="orange" />';
                         //  console.log(this.posicaoNo[0]);
                         this.indiceDoNo++;
@@ -1409,6 +1428,24 @@
             var no = new Node();
             no.renderizaBorda();
             no.renderizaBorda(25);
+
+
+            /* Atualizando a posição do mouse */
+
+            var divPos = {};
+            var offset = $("svg").offset();
+            $("svg").mousemove(function (e) {
+                divPos = {
+                    left: Math.abs($(svg).first().position().left - e.pageX),
+                    top: e.pageY - offset.top
+                };
+
+                // Mostrando a posição do mouse dentro do id 'posMouse' 
+                document.getElementById("posMouse").innerHTML =  divPos.left + ' , ' + divPos.top;
+                console.log(divPos.left);
+            });
+
+
         </script>
 
 
