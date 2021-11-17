@@ -738,7 +738,7 @@
                                type="range"
                                min="1"
                                max="300"
-                               value="200">
+                               value="300">
                         <!-- FIM DO RANGE SLIDER 1-->
 
                         <!--RANGE SLIDER 3-->
@@ -768,7 +768,7 @@
                                type="range"
                                min="1"
                                max="100"
-                               value="50">
+                               value="100">
                         <!-- FIM DO RANGE SLIDER 2-->
 
                         <!--RANGE SLIDER 4-->
@@ -1303,7 +1303,7 @@
 
             class Node {
 
-                constructor(numeroDeNos = 9) {
+                constructor(numeroDeNos = 12) {
                     this.numeroDeNos = numeroDeNos; //numero de nos na borda da malha
                     this.posicaoNo = new Array(numeroDeNos * 5).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
                     this.indiceDoNo = 0;
@@ -1372,7 +1372,7 @@
                     }
 
                 }
-                renderizaBorda(raio = 0) {
+                renderizaBorda(raio = 0, qntPontos=0) {
                     // geração por fronteira interna
                     var rangevalue2 = document.getElementById("range2").value;
                     var quantidadeNosBorda = Math.round(this.numeroDeNos * (rangevalue2 / 100));//pega o numero de nos e multiplica pela porcentagem do range value
@@ -1384,6 +1384,7 @@
 
                     } else {
                         this.anguloInicial = angulo;
+                        quantidadeNosBorda = Math.round(2*Math.PI*raio/)
                     }
 
                     //valores que devem ser obtidos depois
@@ -1398,14 +1399,15 @@
                         this.posicaoNoX[this.indiceDoNo] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
                         this.posicaoNoY[this.indiceDoNo] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
 
-                        console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
+                     /*   console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
                         console.log(this.posicaoNoX);
-                        console.log(this.posicaoNoY);
+                        console.log(this.posicaoNoY);*/
 
 
                         if (this.indiceDoNo == 1) {
-                            //      console.log(this.posicaoNo[0]);
-                            //    console.log(Math.sqrt(Math.pow((this.posicaoNo[0][0] - this.posicaoNo[1][0]), 2) + Math.pow((this.posicaoNo[0][1] - this.posicaoNo[1][1]), 2)));
+                                  console.log(this.posicaoNo[0]);
+                               this.distanciaFronteiraInerna = (Math.sqrt(Math.pow((this.posicaoNoX[0] - this.posicaoNoX[1]), 2) + Math.pow((this.posicaoNoY[0] - this.posicaoNoY[1]), 2)));
+                     console.log(this.distanciaFronteiraInerna);
                         }
 
                         //   console.log(
@@ -1427,7 +1429,7 @@
             }
             var no = new Node();
             no.renderizaBorda();
-            no.renderizaBorda(25);
+            no.renderizaBorda(73);
 
 
             /* Atualizando a posição do mouse */
@@ -1442,7 +1444,6 @@
 
                 // Mostrando a posição do mouse dentro do id 'posMouse' 
                 document.getElementById("posMouse").innerHTML =  divPos.left + ' , ' + divPos.top;
-                console.log(divPos.left);
             });
 
 
