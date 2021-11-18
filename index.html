@@ -1093,9 +1093,15 @@
                 let r2 = document.getElementById('r2');
                 // ------------------ CHECANDO O PRIMEIRO BOTÃO RADIO
                 if (r1.checked == true) {
+                    // var rangevalue1 =  document.getElementById("range1").value/2;
+
                     document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>circular</b> com o diâmetro de <b>" + rangevalue1 + "</b> pixels e grau de refinamento de <b>" + rangevalue2 + "</b>%."
                     var no = new Node();
                     no.renderizaBorda();
+
+                    for (var raio = rangevalue1 / 2; raio > 0; raio -= no.distanciaFronteiraInerna) {
+                        no.renderizaBorda(raio);
+                    }
                     // REMOVENDO O ÍCONE DE CARREGAMENTO
 
                     document.getElementById("loadingspinner").classList.remove('spinner-border');
@@ -1317,8 +1323,12 @@
                 distanciaentredoispontos(x1, y1, x2, y2) {
                     return Math.sqrt(Math.pow((x1 - x2, 2)) + Math.pow((y1 - y2, 2)));
                 }
-                angulo(arrayA, arrayB,) {
+                cosineLawForAngle(sideA, sideB, sideC) {
+                    let cosineAngleC =
+                        (Math.pow(sideA, 2) + Math.pow(sideB, 2) - Math.pow(sideC, 2)) /
+                        (2 * sideA * sideB);
 
+                    return Math.acos(cosineAngleC) * 180 / Math.PI;
                 }
 
                 renderizaBordaRetangulo() {
@@ -1372,19 +1382,22 @@
                     }
 
                 }
-                renderizaBorda(raio = 0, qntPontos=0) {
+                renderizaBorda(raio = 0, qntPontos = 0, angulo = 0) {
                     // geração por fronteira interna
                     var rangevalue2 = document.getElementById("range2").value;
                     var quantidadeNosBorda = Math.round(this.numeroDeNos * (rangevalue2 / 100));//pega o numero de nos e multiplica pela porcentagem do range value
                     //  console.log(quantidadeNosBorda);
-                    var angulo = 360 / quantidadeNosBorda;
+                    if (angulo == 0) {
+
+                        angulo = 360 / quantidadeNosBorda;
+                    }
                     //caso seja a primeira vez que a função seja chamada...
                     if (raio == 0) {
                         raio = document.getElementById("range1").value / 2;
 
                     } else {
                         this.anguloInicial = angulo;
-                        quantidadeNosBorda = Math.round(2*Math.PI*raio/)
+                        quantidadeNosBorda = Math.round(2 * Math.PI * raio);
                     }
 
                     //valores que devem ser obtidos depois
@@ -1399,19 +1412,16 @@
                         this.posicaoNoX[this.indiceDoNo] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
                         this.posicaoNoY[this.indiceDoNo] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
 
-                     /*   console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
-                        console.log(this.posicaoNoX);
-                        console.log(this.posicaoNoY);*/
+                        /*   console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
+                           console.log(this.posicaoNoX);
+                           console.log(this.posicaoNoY);*/
 
 
                         if (this.indiceDoNo == 1) {
-                                  console.log(this.posicaoNo[0]);
-                               this.distanciaFronteiraInerna = (Math.sqrt(Math.pow((this.posicaoNoX[0] - this.posicaoNoX[1]), 2) + Math.pow((this.posicaoNoY[0] - this.posicaoNoY[1]), 2)));
-                     console.log(this.distanciaFronteiraInerna);
+                            //     console.log(this.posicaoNo[0]);
+                            this.distanciaFronteiraInerna = (Math.sqrt(Math.pow((this.posicaoNoX[0] - this.posicaoNoX[1]), 2) + Math.pow((this.posicaoNoY[0] - this.posicaoNoY[1]), 2)));
+                            //      console.log(this.distanciaFronteiraInerna);
                         }
-
-                        //   console.log(
-                        //       "angulo: " + this.anguloInicial + "      x: " + (Math.cos(this.anguloInicial * (Math.PI / 180))) + " y: " + (cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))))));
 
 
                         document.getElementsByTagName("svg")[0].innerHTML +=
@@ -1420,17 +1430,22 @@
                             '" cy=" ' +
                             this.posicaoNoY[this.indiceDoNo] +
                             '" r="5" fill="orange" />';
-                        //  console.log(this.posicaoNo[0]);
                         this.indiceDoNo++;
                         this.anguloInicial += angulo;
                     }
-                    //   console.log(this.indiceDoNo);
+
+
                 }
             }
+            var rangevalue1 = document.getElementById("range1").value / 2;
             var no = new Node();
             no.renderizaBorda();
-            no.renderizaBorda(73);
+           // no.renderizaBorda(74,6,45);
+            for (var raio = rangevalue1; raio > 0; raio -= no.distanciaFronteiraInerna) {
+                no.renderizaBorda(raio);
+            }
 
+            console.log(no.cosineLawForAngle(5, 5, 5));
 
             /* Atualizando a posição do mouse */
 
@@ -1443,7 +1458,7 @@
                 };
 
                 // Mostrando a posição do mouse dentro do id 'posMouse' 
-                document.getElementById("posMouse").innerHTML =  divPos.left + ' , ' + divPos.top;
+                document.getElementById("posMouse").innerHTML = divPos.left + ' , ' + divPos.top;
             });
 
 
