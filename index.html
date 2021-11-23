@@ -738,7 +738,7 @@
                                type="range"
                                min="1"
                                max="300"
-                               value="200">
+                               value="300">
                         <!-- FIM DO RANGE SLIDER 1-->
 
                         <!--RANGE SLIDER 3-->
@@ -768,7 +768,7 @@
                                type="range"
                                min="1"
                                max="100"
-                               value="50">
+                               value="100">
                         <!-- FIM DO RANGE SLIDER 2-->
 
                         <!--RANGE SLIDER 4-->
@@ -807,14 +807,7 @@
                     <svg width='420px'
                          height='420px'
                          id='svg'>
-                        <image id='canvaslogo'
-                               class='canvas-initial-image'
-                               x="60"
-                               y="60"
-                               width="300"
-                               height="300"
-                               opacity="0.6"
-                               xlink:href="https://cdn.discordapp.com/attachments/874412727311937548/880270835632451635/3dgifmaker09477.gif" />
+
                     </svg>
 
                     <div class='no-print'
@@ -1093,9 +1086,15 @@
                 let r2 = document.getElementById('r2');
                 // ------------------ CHECANDO O PRIMEIRO BOTÃO RADIO
                 if (r1.checked == true) {
+                    // var rangevalue1 =  document.getElementById("range1").value/2;
+
                     document.getElementById("statusgerador").innerHTML = "Foi gerada uma malha <b>circular</b> com o diâmetro de <b>" + rangevalue1 + "</b> pixels e grau de refinamento de <b>" + rangevalue2 + "</b>%."
                     var no = new Node();
                     no.renderizaBorda();
+
+                    for (var raio = rangevalue1 / 2; raio > 0; raio -= no.distanciaFronteiraInerna) {
+                        no.renderizaBorda(raio);
+                    }
                     // REMOVENDO O ÍCONE DE CARREGAMENTO
 
                     document.getElementById("loadingspinner").classList.remove('spinner-border');
@@ -1246,9 +1245,7 @@
                 para trocar a cor da logo do gerador, pois se não trava o sistema de 
                 troca de cores.
                 */
-                if (gerador_logo_status == true) {
-                    document.getElementById('canvaslogo').setAttribute('xlink:href', 'https://cdn.discordapp.com/attachments/874412727311937548/880462371343179817/3dgifmaker81496.gif')
-                }
+
 
             }
             //FUNÇÃO DE ATIVAR DARK MODE  
@@ -1283,9 +1280,7 @@
                 para trocar a cor da logo do gerador, pois se não trava o sistema de 
                 troca de cores.
                 */
-                if (gerador_logo_status == true) {
-                    document.getElementById('canvaslogo').setAttribute('xlink:href', 'https://cdn.discordapp.com/attachments/874412727311937548/880270835632451635/3dgifmaker09477.gif')
-                }
+
             }
             // FUNÇÃO DE ESCOLHER QUAL COLOR SCHEME ATIVAR    
             var colorscheme = false;
@@ -1303,7 +1298,7 @@
 
             class Node {
 
-                constructor(numeroDeNos = 9) {
+                constructor(numeroDeNos = 12) {
                     this.numeroDeNos = numeroDeNos; //numero de nos na borda da malha
                     this.posicaoNo = new Array(numeroDeNos * 5).fill(Array(2)); //cada linha contem um array de duas posição, que guarda a posição no eixo x e y
                     this.indiceDoNo = 0;
@@ -1313,12 +1308,19 @@
                     this.posicaoNoX = new Array(numeroDeNos * 5);
                     this.posicaoNoY = new Array(numeroDeNos * 5);
 
+
+                    this.ligacoesInternas = new Array(numeroDeNos * 5);
+
                 }
                 distanciaentredoispontos(x1, y1, x2, y2) {
                     return Math.sqrt(Math.pow((x1 - x2, 2)) + Math.pow((y1 - y2, 2)));
                 }
-                angulo(arrayA, arrayB,) {
+                cosineLawForAngle(sideA, sideB, sideC) {
+                    let cosineAngleC =
+                        (Math.pow(sideA, 2) + Math.pow(sideB, 2) - Math.pow(sideC, 2)) /
+                        (2 * sideA * sideB);
 
+                    return Math.acos(cosineAngleC) * 180 / Math.PI;
                 }
 
                 renderizaBordaRetangulo() {
@@ -1372,18 +1374,22 @@
                     }
 
                 }
-                renderizaBorda(raio = 0) {
+                renderizaBorda(raio = 0, qntPontos = 0, angulo = 0) {
                     // geração por fronteira interna
                     var rangevalue2 = document.getElementById("range2").value;
                     var quantidadeNosBorda = Math.round(this.numeroDeNos * (rangevalue2 / 100));//pega o numero de nos e multiplica pela porcentagem do range value
                     //  console.log(quantidadeNosBorda);
-                    var angulo = 360 / quantidadeNosBorda;
+                    if (angulo == 0) {
+
+                        angulo = 360 / quantidadeNosBorda;
+                    }
                     //caso seja a primeira vez que a função seja chamada...
                     if (raio == 0) {
                         raio = document.getElementById("range1").value / 2;
 
                     } else {
                         this.anguloInicial = angulo;
+                        quantidadeNosBorda = Math.round(2 * Math.PI * raio);
                     }
 
                     //valores que devem ser obtidos depois
@@ -1398,18 +1404,16 @@
                         this.posicaoNoX[this.indiceDoNo] = (raio * (Math.cos(this.anguloInicial * (Math.PI / 180))) + cx);
                         this.posicaoNoY[this.indiceDoNo] = cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))));
 
-                        console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
-                        console.log(this.posicaoNoX);
-                        console.log(this.posicaoNoY);
+                        /*   console.log("estas são as coordernadas: " + this.posicaoNoX[this.indiceDoNo] + " | " + this.posicaoNoY[this.indiceDoNo]);
+                           console.log(this.posicaoNoX);
+                           console.log(this.posicaoNoY);*/
 
 
                         if (this.indiceDoNo == 1) {
-                            //      console.log(this.posicaoNo[0]);
-                            //    console.log(Math.sqrt(Math.pow((this.posicaoNo[0][0] - this.posicaoNo[1][0]), 2) + Math.pow((this.posicaoNo[0][1] - this.posicaoNo[1][1]), 2)));
+                            //     console.log(this.posicaoNo[0]);
+                            this.distanciaFronteiraInerna = (Math.sqrt(Math.pow((this.posicaoNoX[0] - this.posicaoNoX[1]), 2) + Math.pow((this.posicaoNoY[0] - this.posicaoNoY[1]), 2)));
+                            //      console.log(this.distanciaFronteiraInerna);
                         }
-
-                        //   console.log(
-                        //       "angulo: " + this.anguloInicial + "      x: " + (Math.cos(this.anguloInicial * (Math.PI / 180))) + " y: " + (cx - (raio * (Math.sin(this.anguloInicial * (Math.PI / 180))))));
 
 
                         document.getElementsByTagName("svg")[0].innerHTML +=
@@ -1418,17 +1422,55 @@
                             '" cy=" ' +
                             this.posicaoNoY[this.indiceDoNo] +
                             '" r="5" fill="orange" />';
-                        //  console.log(this.posicaoNo[0]);
                         this.indiceDoNo++;
                         this.anguloInicial += angulo;
                     }
-                    //   console.log(this.indiceDoNo);
+
+
+                }
+
+                geraLigacoesInternas() {
+                   
+                
+//colocar duas variveis uma pro angulo atual e outra para a camada interna
+// criar while 
+
+//colocar esse if dentro do while
+/*if (this.posicaoNoX[x] == 360){
+    // colocar console que passou da primeira camanda 
+ // somar a variavel da camada interna
+} 
+
+ */
+                    for (var x = 0; x < this.numeroDeNos; x++) {
+                        var x1 = x+1;
+                        if(x1>(this.numeroDeNos-1)){
+                            x1=0;
+                        }
+                        this.ligacoesInternas[x] = x+"-" + x1;
+
+                    }
+
+
+                    console.log(this.ligacoesInternas);
+                }
+
+                geraReta(x0, y0, xf, yf) {
+                    document.getElementsByTagName("svg")[0].innerHTML +=
+                        '<line x1="' + x0 + '" y1="' + y0 + '" x2="' + xf + '" y2="' + yf + '" style="stroke:rgb(255,0,0);stroke-width:1" />'
                 }
             }
+            var rangevalue1 = document.getElementById("range1").value / 2;
             var no = new Node();
             no.renderizaBorda();
-            no.renderizaBorda(25);
 
+            var anguloDaMalha = no.cosineLawForAngle(74, 74, 77);
+            no.renderizaBorda(74, 20, anguloDaMalha);
+            /*   for (var raio = rangevalue1; raio > 0; raio -= no.distanciaFronteiraInerna) {
+                   no.renderizaBorda(raio);
+               }*/
+
+            console.log(no.cosineLawForAngle(5, 5, 5));
 
             /* Atualizando a posição do mouse */
 
@@ -1441,8 +1483,7 @@
                 };
 
                 // Mostrando a posição do mouse dentro do id 'posMouse' 
-                document.getElementById("posMouse").innerHTML =  divPos.left + ' , ' + divPos.top;
-                console.log(divPos.left);
+                document.getElementById("posMouse").innerHTML = divPos.left + ' , ' + divPos.top;
             });
 
 
