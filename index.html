@@ -807,14 +807,7 @@
                     <svg width='420px'
                          height='420px'
                          id='svg'>
-                        <image id='canvaslogo'
-                               class='canvas-initial-image'
-                               x="60"
-                               y="60"
-                               width="300"
-                               height="300"
-                               opacity="0.6"
-                               xlink:href="https://cdn.discordapp.com/attachments/874412727311937548/880270835632451635/3dgifmaker09477.gif" />
+
                     </svg>
 
                     <div class='no-print'
@@ -1252,9 +1245,7 @@
                 para trocar a cor da logo do gerador, pois se não trava o sistema de 
                 troca de cores.
                 */
-                if (gerador_logo_status == true) {
-                    document.getElementById('canvaslogo').setAttribute('xlink:href', 'https://cdn.discordapp.com/attachments/874412727311937548/880462371343179817/3dgifmaker81496.gif')
-                }
+
 
             }
             //FUNÇÃO DE ATIVAR DARK MODE  
@@ -1289,9 +1280,7 @@
                 para trocar a cor da logo do gerador, pois se não trava o sistema de 
                 troca de cores.
                 */
-                if (gerador_logo_status == true) {
-                    document.getElementById('canvaslogo').setAttribute('xlink:href', 'https://cdn.discordapp.com/attachments/874412727311937548/880270835632451635/3dgifmaker09477.gif')
-                }
+
             }
             // FUNÇÃO DE ESCOLHER QUAL COLOR SCHEME ATIVAR    
             var colorscheme = false;
@@ -1318,6 +1307,9 @@
 
                     this.posicaoNoX = new Array(numeroDeNos * 5);
                     this.posicaoNoY = new Array(numeroDeNos * 5);
+
+
+                    this.ligacoesInternas = new Array(numeroDeNos * 5);
 
                 }
                 distanciaentredoispontos(x1, y1, x2, y2) {
@@ -1436,14 +1428,47 @@
 
 
                 }
+
+                geraLigacoesInternas() {
+                   
+                
+//colocar duas variveis uma pro angulo atual e outra para a camada interna
+// criar while 
+
+//colocar esse if dentro do while
+/*if (this.posicaoNoX[x] == 360){
+    // colocar console que passou da primeira camanda 
+ // somar a variavel da camada interna
+} 
+
+ */
+                    for (var x = 0; x < this.numeroDeNos; x++) {
+                        var x1 = x+1;
+                        if(x1>(this.numeroDeNos-1)){
+                            x1=0;
+                        }
+                        this.ligacoesInternas[x] = x+"-" + x1;
+
+                    }
+
+
+                    console.log(this.ligacoesInternas);
+                }
+
+                geraReta(x0, y0, xf, yf) {
+                    document.getElementsByTagName("svg")[0].innerHTML +=
+                        '<line x1="' + x0 + '" y1="' + y0 + '" x2="' + xf + '" y2="' + yf + '" style="stroke:rgb(255,0,0);stroke-width:1" />'
+                }
             }
             var rangevalue1 = document.getElementById("range1").value / 2;
             var no = new Node();
             no.renderizaBorda();
-           // no.renderizaBorda(74,6,45);
-            for (var raio = rangevalue1; raio > 0; raio -= no.distanciaFronteiraInerna) {
-                no.renderizaBorda(raio);
-            }
+
+            var anguloDaMalha = no.cosineLawForAngle(74, 74, 77);
+            no.renderizaBorda(74, 20, anguloDaMalha);
+            /*   for (var raio = rangevalue1; raio > 0; raio -= no.distanciaFronteiraInerna) {
+                   no.renderizaBorda(raio);
+               }*/
 
             console.log(no.cosineLawForAngle(5, 5, 5));
 
